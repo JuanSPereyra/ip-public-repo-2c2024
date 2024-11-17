@@ -37,7 +37,12 @@
         <h2 class="text-center">La búsqueda no arrojó resultados...</h2>
         {% else %} {% for img in images %}
         <div class="col">
-            <div class="card mb-3 ms-5" style="max-width: 540px;">
+            <div class="card
+                {% if img.status == 'Alive' %} border-success 
+                {% elif img.status == 'Dead' %} border-danger 
+                {% else %} border-warning 
+                {% endif %} 
+                mb-3 ms-5">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <img src="{{ img.image }}" class="card-img-top" alt="imagen">
@@ -48,14 +53,14 @@
                             <h3 class="card-title">{{ img.name }}</h3>
                             <p class="card-text">
                                 <strong>
-                                            {% if img.status == 'Alive' %} 🟢 {{ img.status }} 
-                                            {% elif img.status == 'Dead' %} 🔴 {{ img.status }} 
-                                            {% else %} 🟠 {{ img.status }} 
+                                            {% if img.status == 'Alive' %} 🟢 {{ img.status }}
+                                            {% elif img.status == 'Dead' %} 🔴 {{ img.status }}
+                                            {% else %} 🟠 {{ img.status }}
                                             {% endif %}
                                         </strong>
                             </p>
-                            <p class="card-text"><small class="text-body-secondary">Última ubicación: {{ img.last_location }}</small></p>
-                            <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ img.first_seen }}</small></p>
+                            <p class="card-text"><small class="text-body-secondary">Última ubicación: {{ img.location.name }}</small></p>
+                            <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ img.origin.name}}</small></p>
                         </div>
                         {% if request.user.is_authenticated %}
                         <div class="card-footer text-center">

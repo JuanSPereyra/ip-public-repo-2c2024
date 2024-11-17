@@ -140,3 +140,23 @@ table.table td i {
     margin-top: 6px;
     font-size: 95%;
 }
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card.alive {
+    border: 2px solid #34C759;
+    background-color: rgba(52, 199, 89, 0.1);
+}
+
+.card.dead {
+    border: 2px solid #FF3B30;
+    background-color: rgba(255, 59, 48, 0.1);
+}
+
+.card.unknown {
+    border: 2px solid #F7DC6F;
+    background-color: rgba(247, 220, 111, 0.1);
+}
