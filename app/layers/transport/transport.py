@@ -1,5 +1,5 @@
 # capa de transporte/comunicación con otras interfaces o sistemas externos.
-
+#COMPLETO COMPLETO COMPLETO
 import requests
 from ...config import config
 
