@@ -1,0 +1,30 @@
+{% extends 'header.html' %}
+{% block content %}
+<style>
+    body {
+        background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/9e/Rick_and_Morty_title_card.png');
+        background-size: cover;
+        background-position: center;
+        background-position: 50% 80%; /* mueve la imagen al 50% horizontal y 80% vertical */
+    }
+    .logout-message {
+        text-align: center;
+        margin-top: 20%;
+        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semitransparente */
+        padding: 20px;
+        border-radius: 10px;
+        display: inline-block;
+    }
+</style>
+
+<div class="logout-message">
+    <h1>Deslogeado con Éxito</h1>
+    <p>Espero verte pronto. Con amor,</p>
+    <p><strong>Rick y Morty</strong></p>
+    
+    <div style="margin-top: 20px;">
+        <a href="{% url 'login' %}" class="btn btn-primary">Volver a Iniciar Sesión</a>
+    </div>
+</div>
+{% endblock %}
+
