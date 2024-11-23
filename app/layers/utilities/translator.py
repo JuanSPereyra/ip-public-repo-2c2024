@@ -15,7 +15,6 @@ def fromRequestIntoCard(object):
 
 # usado cuando la info. viene del template, para transformarlo en una Card antes de guardarlo en la base de datos.
 def fromTemplateIntoCard(templ): 
-    print("datos POST recibidos:", templ.POST)
     card = Card(
                         url=templ.POST.get("url"),
                         name=templ.POST.get("name"),

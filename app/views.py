@@ -1,7 +1,7 @@
 # capa de vista/presentación
 
 from django.shortcuts import redirect, render
-from app.layers.services.services import getAllImages, saveFavourite
+from app.layers.services.services import getAllImages, saveFavourite, getAllFavourites
 from django.contrib.auth.decorators import login_required #login
 from django.contrib.auth import logout #ya implementado
 from django.core.paginator import Paginator #in-built paginador
@@ -39,13 +39,13 @@ def search(request):
 # Estas funciones se usan cuando el usuario está logueado en la aplicación.
 @login_required
 def getAllFavouritesByUser(request):
-    favourite_list = []
+    favourite_list = getAllFavourites(request) #trae lista de services
     
     return render(request, 'favourites.html', { 'favourite_list': favourite_list })
 
 @login_required
 def saveFavouriteView(request):
-    saveFavourite(request)
+    saveFavourite(request) #services
     return render(request, 'favourites-add.html')
 
 

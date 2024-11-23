@@ -4,7 +4,8 @@ from ..persistence import repositories
 from ..utilities.translator import fromRepositoryIntoCard, fromRequestIntoCard, fromTemplateIntoCard
 from django.contrib.auth import get_user
 from app.layers.transport.transport import getAllImages
-from app.layers.utilities.card import Card
+
+import requests #para llamar a json escondido en card.url
 
 from django.http import HttpRequest
 def get_user(request: HttpRequest):
@@ -38,8 +39,13 @@ def getAllFavourites(request):
         favourite_list = repositories.getAllFavourites(user) # buscamos desde el repositories.py TODOS los favoritos del usuario (variable 'user').
         mapped_favourites = []
 
-        for favourite in favourite_list:
-            card = '' # transformamos cada favorito en una Card, y lo almacenamos en card.
+        for favourite in favourite_list: 
+            
+            card = fromRepositoryIntoCard(favourite) # transformamos cada favorito en una Card, y lo almacenamos en card.
+            
+            response = requests.get(card.url).json() #consigo el json escondido en url
+            card.url=response['image'] #cambio el link del json por el de imagen
+        
             mapped_favourites.append(card)
 
         return mapped_favourites

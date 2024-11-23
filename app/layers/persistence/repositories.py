@@ -9,7 +9,7 @@ def saveFavourite(image):
     except Exception as e:
         print(f"Error al guardar el favorito: {e}")
         return None
-
+    
 def getAllFavourites(user):
     favouriteList = Favourite.objects.filter(user=user).values('id', 'url', 'name', 'status', 'last_location', 'first_seen')
     return list(favouriteList)
