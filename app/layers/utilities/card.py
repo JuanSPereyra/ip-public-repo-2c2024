@@ -1,4 +1,5 @@
 class Card:
+    #Representa una tarjeta con información de un personaje.
     def __init__(self, url, name, status, last_location, first_seen, user=None, id=None):
         self.url = url
         self.name = name
@@ -10,9 +11,11 @@ class Card:
         self.id = id
 
     def __str__(self):
-        return f'IMG URL: {self.title}, name: {self.name}, status: {self.status}, última ubicación: {self.last_location}, primera vez visto: {self.first_seen}, Usuario: {self.user}, Id: {self.id}'
+        #Devuelve una representación en cadena de la tarjeta.
+        return f'IMG URL: {self.url}, name: {self.name}, status: {self.status}, última ubicación: {self.last_location}, primera vez visto: {self.first_seen}, Usuario: {self.user}, Id: {self.id}'
     
     # método equals.
+    #Compara si dos tarjetas son iguales.
     def __eq__(self, other):
         if not isinstance(other, Card):
             return False
@@ -20,5 +23,6 @@ class Card:
                (other.url, other.name, other.status)
 
     # método hashCode.
+    #Devuelve el hash de la tarjeta.
     def __hash__(self):
         return hash((self.url, self.name, self.status))

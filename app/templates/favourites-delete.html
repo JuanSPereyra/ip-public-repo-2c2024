@@ -1,0 +1,11 @@
+{% extends 'header.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="alert alert-danger" role="alert">
+      <h2>Favorito eliminado con éxito!</h2>
+      <p>El personaje ha sido eliminado de tus favoritos.</p>
+    </div>
+    <a href="{% url 'favoritos' %}" class="btn btn-primary">Volver a favoritos</a>
+  </div>
+{% endblock %}

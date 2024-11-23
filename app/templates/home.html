@@ -1,5 +1,14 @@
 {% extends 'header.html' %} {% block content %}
-<main>
+<style>
+    body {
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/9e/Rick_and_Morty_title_card.png');
+      background-size: cover;
+      background-position: center;
+      background-position: 50% 8000%; /* mueve la imagen al 50% horizontal y 80% vertical */
+    }
+  </style>
+  
+  <main>
     <h1 class="text-center">Buscador Rick & Morty</h1>
 
     <div class="d-flex justify-content-end" style="margin-bottom: 1%; margin-right: 2rem;">
@@ -7,15 +16,15 @@
         <nav aria-label="...">
             <ul class="pagination">
                 <li class="page-item disabled">
-                    <a class="page-link">⬅️</a>
+                    <a class="?page=1">⬅️</a>
                 </li>
                 <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">1</a>
+                    <a class="page-link" href="?page=1">1</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="#">2</a>
+                    <a class="page-link" href="?page=2">2</a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
                 <li class="page-item">
                     <a class="page-link" href="#">➡️</a>
                 </li>
@@ -69,8 +78,8 @@
                                 <input type="hidden" name="name" value="{{ img.name }}">
                                 <input type="hidden" name="url" value="{{ img.url }}">
                                 <input type="hidden" name="status" value="{{ img.status }}">
-                                <input type="hidden" name="last_location" value="{{ img.last_location }}">
-                                <input type="hidden" name="first_seen" value="{{ img.first_seen }}"> {% if img in favourite_list %}
+                                <input type="hidden" name="last_location" value="{{ img.location.name }}">
+                                <input type="hidden" name="first_seen" value="{{ img.origin.name }}"> {% if img in favourite_list %}
                                 <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está en favoritos</button> {% else %}
                                 <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white">❤️ Añadir a favoritos</button> {% endif %}
                             </form>
