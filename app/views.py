@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required #login
 from django.contrib.auth import logout #ya implementado
 from django.core.paginator import Paginator #in-built paginador
 
+from app.layers.utilities.translator import fromRequestIntoCard
+
 
 def index_page(request):
     return render(request, 'index.html')
@@ -13,24 +15,41 @@ def index_page(request):
 # esta función obtiene 2 listados que corresponden a las imágenes de la API y los favoritos del usuario, y los usa para dibujar el correspondiente template.
 # si el opcional de favoritos no está desarrollado, devuelve un listado vacío.
 def home(request, page=1):
-    images = getAllImages() #acá recibe imagenes de services
+    images = getAllImages() #acá recibe imagenes de services, devuelve lista
     paginator = Paginator (images, per_page=20)
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
-    context = { 'images': page_object}
-
+    
     favourite_list = []
+    if request.user.is_authenticated:
+        favourite_list = getAllFavourites(request) #devuelve objeto
+    
+    fromObjectToDicc = []
+    for img in page_object:    
+        fromObjectToDicc.append(fromRequestIntoCard(img)) #devuelve lista diccionario, asi se puede comparar
 
-    return render(request, 'home.html', context) 
-# { 'favourite_list': favourite_list }
+    # No tomaba como iguales los datos, asi que le sacamos el formato
+    favourite_list_names = [fav.name.strip().lower() for fav in favourite_list]
+
+    context = {
+        'images': page_object,
+        'favourite_list': favourite_list_names,  # Lista de nombres normalizados de favoritos
+               }
+
+    return render(request, 'home.html', context)
 
 def search(request):
     search_msg = request.POST.get('query', '')
-    favourite_list = [] #esto NO va acá
+    
+    #copio desde home
+    favourite_list = []
+    favourite_list = getAllFavourites(request)
 
+    favourite_list_names = [fav.name.strip().lower() for fav in favourite_list]
+        
     if (search_msg != ''):
         images = getAllImages(search_msg) #obtengo los jsons pasando parametro desde services.py
-        return render(request, 'buscar.html', { 'images': images, 'favourite_list': favourite_list })
+        return render(request, 'buscar.html', { 'images': images, 'favourite_list': favourite_list_names })
     
     else:
         return redirect('home')
@@ -57,4 +76,4 @@ def deleteFavouriteView(request):
 @login_required
 def exit(request):
     logout(request)
-    return redirect('login')
+    return render(request, 'exit.html')

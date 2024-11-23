@@ -69,10 +69,13 @@
                                 <input type="hidden" name="name" value="{{ img.name }}">
                                 <input type="hidden" name="url" value="{{ img.url }}">
                                 <input type="hidden" name="status" value="{{ img.status }}">
-                                <input type="hidden" name="last_location" value="{{ img.last_location }}">
-                                <input type="hidden" name="first_seen" value="{{ img.first_seen }}"> {% if img in favourite_list %}
-                                <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está en favoritos</button> {% else %}
-                                <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white">❤️ Añadir a favoritos</button> {% endif %}
+                                <input type="hidden" name="last_location" value="{{ img.location.name }}">
+                                <input type="hidden" name="first_seen" value="{{ img.origin.name }}">
+                                {% if img.name|lower in favourite_list %}
+                                    <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está en favoritos</button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white">❤️ Añadir a favoritos</button>
+                                {% endif %}
                             </form>
                         </div>
                         {% endif %}
