@@ -1,7 +1,7 @@
 # capa de vista/presentación
 
 from django.shortcuts import redirect, render
-from app.layers.services.services import getAllImages, saveFavourite, getAllFavourites
+from app.layers.services.services import getAllImages, saveFavourite, getAllFavourites, deleteFavourite
 from django.contrib.auth.decorators import login_required #login
 from django.contrib.auth import logout #ya implementado
 from django.core.paginator import Paginator #in-built paginador
@@ -50,8 +50,9 @@ def saveFavouriteView(request):
 
 
 @login_required
-def deleteFavourite(request):
-    pass
+def deleteFavouriteView(request):
+    deleteFavourite(request)
+    return render(request, 'favourites-delete.html')
 
 @login_required
 def exit(request):
