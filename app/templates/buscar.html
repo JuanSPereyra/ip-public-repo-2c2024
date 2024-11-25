@@ -45,7 +45,7 @@
                 mb-3 ms-5">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="{{ img.image }}" class="card-img-top" alt="imagen">
+                        <img src="{{ img.url }}" class="card-img-top" alt="imagen">
                     </div>
 
                     <div class="col-md-8">
@@ -53,15 +53,16 @@
                             <h3 class="card-title">{{ img.name }}</h3>
                             <p class="card-text">
                                 <strong>
-                                            {% if img.status == 'Alive' %} 🟢 {{ img.status }}
-                                            {% elif img.status == 'Dead' %} 🔴 {{ img.status }}
-                                            {% else %} 🟠 {{ img.status }}
-                                            {% endif %}
-                                        </strong>
-                            </p>
-                            <p class="card-text"><small class="text-body-secondary">Última ubicación: {{ img.location.name }}</small></p>
-                            <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ img.origin.name}}</small></p>
-                        </div>
+                                    {% if img.status == 'Alive' %} 🟢 {{ img.status }}
+                                    {% elif img.status == 'Dead' %} 🔴 {{ img.status }}
+                                    {% else %} 🟠 {{ img.status }}
+                                    {% endif %}
+                                </strong>
+                    </p>
+                    <p class="card-text"><small class="text-body-secondary">Última ubicación: {{ img.last_location }}</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ img.first_seen }}</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Especie: {{ img.species }}</small></p>
+                </div>
                         {% if request.user.is_authenticated %}
                         <div class="card-footer text-center">
                             <form method="post" action="{% url 'agregar-favorito' %}">
@@ -69,8 +70,9 @@
                                 <input type="hidden" name="name" value="{{ img.name }}">
                                 <input type="hidden" name="url" value="{{ img.url }}">
                                 <input type="hidden" name="status" value="{{ img.status }}">
-                                <input type="hidden" name="last_location" value="{{ img.location.name }}">
-                                <input type="hidden" name="first_seen" value="{{ img.origin.name }}">
+                                <input type="hidden" name="last_location" value="{{ img.last_location }}">
+                                <input type="hidden" name="first_seen" value="{{ img.first_seen }}">
+                                <input type="hidden" name="species" value="{{ img.species }}">
                                 {% if img.name|lower in favourite_list %}
                                     <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está en favoritos</button>
                                 {% else %}

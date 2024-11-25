@@ -18,6 +18,7 @@
                         <th>Status</th>
                         <th>Última ubicación <i class="fa fa-sort"></i></th>
                         <th>Episodio inicial </th>
+                        <th>Especie </th>
                         <th>Acciones </th>
                     </tr>
                 </thead>
@@ -30,6 +31,7 @@
                         <td>{{ favourite.status }}</td>
                         <td>{{ favourite.last_location }}</td>
                         <td>{{ favourite.first_seen }}</td>
+                        <td>{{ favourite.species }}</td>
                         <td>
                             <form method="post" action="{% url 'borrar-favorito' %}">
                                 {% csrf_token %}

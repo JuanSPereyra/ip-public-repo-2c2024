@@ -9,7 +9,8 @@ def fromRequestIntoCard(object):
                         name=object['name'],
                         status=object['status'], 
                         last_location = object['location']['name'],
-                        first_seen = object['origin']['name']
+                        first_seen = "Episodio " + object['episode'][0].split("/")[-1],
+                        species =object['species']
                 )
     return card
 
@@ -20,7 +21,8 @@ def fromTemplateIntoCard(templ):
                         name=templ.POST.get("name"),
                         status=templ.POST.get("status"),
                         last_location=templ.POST.get("last_location"),
-                        first_seen=templ.POST.get("first_seen")
+                        first_seen=templ.POST.get("first_seen"),
+                        species=templ.POST.get("species")
                 )
     return card
 
@@ -34,5 +36,6 @@ def fromRepositoryIntoCard(repo_dict):
                         status=repo_dict['status'],
                         last_location=repo_dict['last_location'],
                         first_seen=repo_dict['first_seen'],
+                        species =repo_dict['species']
                 )
     return card

@@ -1,14 +1,5 @@
 {% extends 'header.html' %} {% block content %}
-<style>
-    body {
-      background-image: url('https://upload.wikimedia.org/wikipedia/commons/9/9e/Rick_and_Morty_title_card.png');
-      background-size: cover;
-      background-position: center;
-      background-position: 50% 8000%; /* mueve la imagen al 50% horizontal y 80% vertical */
-    }
-  </style>
-  
-  <main>
+<main>
     <h1 class="text-center">Buscador Rick & Morty</h1>
 
     <div class="d-flex justify-content-end" style="margin-bottom: 1%; margin-right: 2rem;">
@@ -16,15 +7,15 @@
         <nav aria-label="...">
             <ul class="pagination">
                 <li class="page-item disabled">
-                    <a class="?page=1">⬅️</a>
+                    <a class="page-link">⬅️</a>
                 </li>
                 <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="?page=1">1</a>
+                    <a class="page-link" href="#">1</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?page=2">2</a>
+                    <a class="page-link" href="#">2</a>
                 </li>
-                <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
                 <li class="page-item">
                     <a class="page-link" href="#">➡️</a>
                 </li>
@@ -47,14 +38,14 @@
         {% else %} {% for img in images %}
         <div class="col">
             <div class="card
-                {% if img.status == 'Alive' %} border-success 
-                {% elif img.status == 'Dead' %} border-danger 
-                {% else %} border-warning 
-                {% endif %} 
+                {% if img.status == 'Alive' %} border-success
+                {% elif img.status == 'Dead' %} border-danger
+                {% else %} border-warning
+                {% endif %}
                 mb-3 ms-5">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="{{ img.image }}" class="card-img-top" alt="imagen">
+                        <img src="{{ img.url }}" class="card-img-top" alt="imagen">
                     </div>
 
                     <div class="col-md-8">
@@ -68,8 +59,9 @@
                                             {% endif %}
                                         </strong>
                             </p>
-                            <p class="card-text"><small class="text-body-secondary">Última ubicación: {{ img.location.name }}</small></p>
-                            <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ img.origin.name}}</small></p>
+                            <p class="card-text"><small class="text-body-secondary">Última ubicación: {{ img.last_location }}</small></p>
+                            <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ img.first_seen }}</small></p>
+                            <p class="card-text"><small class="text-body-secondary">Especie: {{ img.species }}</small></p>
                         </div>
                         {% if request.user.is_authenticated %}
                         <div class="card-footer text-center">
@@ -78,8 +70,9 @@
                                 <input type="hidden" name="name" value="{{ img.name }}">
                                 <input type="hidden" name="url" value="{{ img.url }}">
                                 <input type="hidden" name="status" value="{{ img.status }}">
-                                <input type="hidden" name="last_location" value="{{ img.location.name }}">
-                                <input type="hidden" name="first_seen" value="{{ img.origin.name }}">
+                                <input type="hidden" name="last_location" value="{{ img.last_location }}">
+                                <input type="hidden" name="first_seen" value="{{ img.first_seen }}">
+                                <input type="hidden" name="species" value="{{ img.species }}">
                                 {% if img.name|lower in favourite_list %}
                                     <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está en favoritos</button>
                                 {% else %}

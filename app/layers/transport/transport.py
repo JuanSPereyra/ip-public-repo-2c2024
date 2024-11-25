@@ -9,7 +9,7 @@ def getAllImages(input=None):
     if input is None:
         json_response = requests.get(config.DEFAULT_REST_API_URL).json()
     else:
-        json_response = requests.get(config.DEFAULT_REST_API_SEARCH + input).json()
+        json_response = requests.get(config.DEFAULT_REST_API_SEARCH + str(input)).json()
 
     json_collection = []
 

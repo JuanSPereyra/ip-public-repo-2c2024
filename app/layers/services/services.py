@@ -11,14 +11,17 @@ from django.http import HttpRequest
 def get_user(request: HttpRequest):
     return request.user
 
-def searchImages(input=None):
+def Images(request=None):
     # obtiene un listado de datos "crudos" desde la API, usando a transport.py.
-    json_collection = getAllImages() #datos crudos usando transport.py
+    # datos crudos = lista de diccionarios
+    json_collection = getAllImages(request) #datos crudos usando transport.py
+
     # recorre cada dato crudo de la colección anterior, lo convierte en una Card y lo agrega a images.
+    # separa los diccionarios en cards (dicc)
     images = []
-    for item in json_collection:
-        if input.lower()==json_collection['name'].lower():
-            images.append(item)    
+    for image in json_collection:
+        card = fromRequestIntoCard(image)
+        images.append(card)  
 
     return images
 
@@ -43,8 +46,10 @@ def getAllFavourites(request):
             
             card = fromRepositoryIntoCard(favourite) # transformamos cada favorito en una Card, y lo almacenamos en card.
             
-            response = requests.get(card.url).json() #consigo el json escondido en url
-            card.url=response['image'] #cambio el link del json por el de imagen
+ #           response = requests.get(card.url)
+  #          if response.status_code == 200 and response.text:
+   #             data = response.json() #consigo el json escondido en url
+    #            card.url = data['image'] #cambio el link del json por el de imagen
         
             mapped_favourites.append(card)
 
