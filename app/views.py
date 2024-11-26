@@ -15,10 +15,14 @@ def index_page(request):
 # esta función obtiene 2 listados que corresponden a las imágenes de la API y los favoritos del usuario, y los usa para dibujar el correspondiente template.
 # si el opcional de favoritos no está desarrollado, devuelve un listado vacío.
 def home(request, page=1):
+
+    pagina_actual = int(request.GET.get('page', 1))
+    pagina_anterior = pagina_actual - 1 if pagina_actual > 1 else 1
+    pagina_siguiente = pagina_actual + 1 if pagina_actual < 3 else 3
     
     images = Images() #acá recibe imagenes de services, recibe lista
 
-    paginator = Paginator (images, per_page=20)
+    paginator = Paginator (images, per_page=7)
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
     
@@ -36,7 +40,9 @@ def home(request, page=1):
     context = {
         'images': page_object,
         'favourite_list': favourite_list_names,  # Lista de nombres normalizados de favoritos
-               }
+        'pagina_anterior': pagina_anterior,
+        'pagina_siguiente': pagina_siguiente,
+    }
 
     return render(request, 'home.html', context)
 

@@ -5,23 +5,25 @@
     <div class="d-flex justify-content-end" style="margin-bottom: 1%; margin-right: 2rem;">
         <!-- Selector de página -->
         <nav aria-label="...">
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link">⬅️</a>
-                </li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">➡️</a>
-                </li>
-            </ul>
+          <ul class="pagination">
+            <li class="page-item {% if request.GET.page == '1' or request.GET.page == '' %}disabled{% endif %}">
+              <a class="page-link" href="?page={{ pagina_anterior }}">⬅️</a>
+            </li>
+            <li class="page-item {% if request.GET.page == '1' or request.GET.page == '' %}active{% endif %}">
+              <a class="page-link" href="?page=1">1</a>
+            </li>
+            <li class="page-item {% if request.GET.page == '2' %}active{% endif %}">
+              <a class="page-link" href="?page=2">2</a>
+            </li>
+            <li class="page-item {% if request.GET.page == '3' %}active{% endif %}">
+              <a class="page-link" href="?page=3">3</a>
+            </li>
+            <li class="page-item {% if request.GET.page == '3' %}disabled{% endif %}">
+              <a class="page-link" href="?page={{ pagina_siguiente }}">➡️</a>
+            </li>
+          </ul>
         </nav>
-    </div>
+      </div>
 
     <div class="d-flex justify-content-center" style="margin-bottom: 1%">
         <!-- Buscador del sitio -->
