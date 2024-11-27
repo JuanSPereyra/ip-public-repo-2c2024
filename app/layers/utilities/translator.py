@@ -3,6 +3,11 @@
 from app.layers.utilities.card import Card
 
 # usado cuando la info. viene de la API, para transformarla en una Card.
+
+# modificado first_see así concatena el resultado
+# una vez guardado de esa forma, cuando se llama desde BD ya viene así
+# agregado specie
+
 def fromRequestIntoCard(object):
     card = Card(
                         url=object['image'],

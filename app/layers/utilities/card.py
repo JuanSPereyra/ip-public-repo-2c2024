@@ -1,5 +1,8 @@
 class Card:
     #Representa una tarjeta con información de un personaje.
+
+    #agregado species al model
+    
     def __init__(self, url, name, status, last_location, first_seen, species, user=None, id=None):
         self.url = url
         self.name = name
