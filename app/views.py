@@ -51,13 +51,22 @@ def search(request):
     
     #copio desde home
     favourite_list = []
-  #  favourite_list = getAllFavourites(request)
+    if request.user.is_authenticated:
+        favourite_list = getAllFavourites(request) #devuelve objeto
+    
+    favourite_list_names = [fav.name.strip().lower() for fav in favourite_list]
 
    # favourite_list_names = [fav.name.strip().lower() for fav in favourite_list]
         
     if (search_msg != ''):
         images = Images(search_msg) #obtengo los jsons pasando parametro desde services.py
-        return render(request, 'buscar.html', { 'images': images })
+
+        context = {
+        'images': images,
+        'favourite_list': favourite_list_names,  # Lista de nombres normalizados de favoritos
+    }
+        
+        return render(request, 'buscar.html', context)
     #'favourite_list': favourite_list_names
     else:
         return redirect('home')
