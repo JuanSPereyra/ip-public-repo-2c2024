@@ -6,13 +6,25 @@ from django.contrib.auth import get_user
 from app.layers.transport.transport import getAllImages
 from django.http import HttpRequest
 
+from app.layers.transport.transport import getAllInfo
+
+def obtener_info(url):
+
+    info = getAllInfo(url)
+
+    pages = info['pages']
+    next_url = info['next']
+    prev_url = info['prev']    
+
+    return pages, next_url, prev_url
+
 def get_user(request: HttpRequest):
     return request.user
 
-def Images(request=None):
+def Images(url, request=None):
     # obtiene un listado de datos "crudos" desde la API, usando a transport.py.
     # datos crudos = lista de diccionarios
-    json_collection = getAllImages(request) #datos crudos usando transport.py
+    json_collection = getAllImages(url, request) #datos crudos usando transport.py
 
     # recorre cada dato crudo de la colección anterior, lo convierte en una Card y lo agrega a images.
     # separa los diccionarios en cards (dicc)

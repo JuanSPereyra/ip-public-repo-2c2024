@@ -2,28 +2,23 @@
 <main>
     <h1 class="text-center">Buscador Rick & Morty</h1>
 
-    <div class="d-flex justify-content-end" style="margin-bottom: 1%; margin-right: 2rem;">
-        <!-- Selector de página -->
-        <nav aria-label="...">
-          <ul class="pagination">
-            <li class="page-item {% if request.GET.page == '1' or request.GET.page == '' %}disabled{% endif %}">
-              <a class="page-link" href="?page={{ pagina_anterior }}">⬅️</a>
-            </li>
-            <li class="page-item {% if request.GET.page == '1' or request.GET.page == '' %}active{% endif %}">
-              <a class="page-link" href="?page=1">1</a>
-            </li>
-            <li class="page-item {% if request.GET.page == '2' %}active{% endif %}">
-              <a class="page-link" href="?page=2">2</a>
-            </li>
-            <li class="page-item {% if request.GET.page == '3' %}active{% endif %}">
-              <a class="page-link" href="?page=3">3</a>
-            </li>
-            <li class="page-item {% if request.GET.page == '3' %}disabled{% endif %}">
-              <a class="page-link" href="?page={{ pagina_siguiente }}">➡️</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+    <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+      {% if pages > 1 %}
+          {% if page_number > 1 %}
+              <a href="?page={{ page_number|add:-1 }}">Anterior</a>
+          {% endif %}
+          {% for pagina in paginas %}
+              {% if pagina == page_number %}
+                  <strong>{{ pagina }}</strong>
+              {% else %}
+                  <a href="?page={{ pagina }}">{{ pagina }}</a>
+              {% endif %}
+          {% endfor %}
+          {% if page_number < pages %}
+              <a href="?page={{ page_number|add:1 }}">Siguiente</a>
+          {% endif %}
+      {% endif %}
+  </div>
 
     <div class="d-flex justify-content-center" style="margin-bottom: 1%">
         <!-- Buscador del sitio -->

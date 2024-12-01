@@ -3,11 +3,19 @@
 import requests
 from ...config import config
 
+def getAllInfo(url , input=None):
+    if input is None:
+        json_info = requests.get(url).json()
+    else:
+        json_info = requests.get(config.DEFAULT_REST_API_SEARCH + str(input)).json()
+
+    return json_info['info']
+
 # comunicación con la REST API.
 # este método se encarga de "pegarle" a la API y traer una lista de objetos JSON crudos (raw).
-def getAllImages(input=None):
+def getAllImages(url, input=None):
     if input is None:
-        json_response = requests.get(config.DEFAULT_REST_API_URL).json()
+        json_response = requests.get(url).json()
     else:
         json_response = requests.get(config.DEFAULT_REST_API_SEARCH + str(input)).json()
 
