@@ -10,8 +10,11 @@ from app.layers.transport.transport import getAllInfo
 
 def obtener_info(url):
 
-    info = getAllInfo(url)
+    info = getAllInfo(url) #transport devuelve esta info desde la api
 
+    if info is None:
+        return None, None, None
+    
     pages = info['pages']
     next_url = info['next']
     prev_url = info['prev']    

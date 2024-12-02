@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required #login
 from django.contrib.auth import logout #ya implementado
 from django.core.paginator import Paginator #in-built paginador
 
+from .config import config
 
 def index_page(request):
     return render(request, 'index.html')
@@ -14,15 +15,12 @@ def index_page(request):
 # si el opcional de favoritos no está desarrollado, devuelve un listado vacío.
 def home(request):
 
-    url = "https://rickandmortyapi.com/api/character"
-    page_number = int(request.GET.get('page', 1))
-    print(page_number)
-    url += "?page=" + str(page_number)
+    url = config.DEFAULT_REST_API_URL
 
-    pages, next_url, prev_url = obtener_info(url)
-    print(pages)
-    print(next_url)
-    print(prev_url)
+    page_number = int(request.GET.get('page', 1))
+    url += str(page_number)
+
+    pages, next_url, prev_url = obtener_info(url) #llamo a funcion de services
     
     paginas = list(range(1, pages+1))
     
@@ -54,22 +52,45 @@ def home(request):
     return render(request, 'home.html', context)
 
 def search(request):
-    search_msg = request.POST.get('query', '')
-    
+    search_msg = request.GET.get('name', '')
+    print("primero", search_msg)
+    if not search_msg:
+        search_msg = request.POST.get('query', '')
+        print("segundo", search_msg)
     #copio desde home
     favourite_list = []
     if request.user.is_authenticated:
         favourite_list = getAllFavourites(request) #devuelve objeto
     
     favourite_list_names = [fav.name.strip().lower() for fav in favourite_list]
-        
+    print("tercero", search_msg)
     if (search_msg != ''):
-        images = Images(search_msg) #obtengo los jsons pasando parametro desde services.py
+       # url = config.DEFAULT_REST_API_URL
+
+        page_number = int(request.GET.get('page', 1))
+
+        url = config.DEFAULT_REST_API_URL + str(page_number) + "&name=" + str(search_msg)
+
+        images = Images(url, search_msg) #obtengo los jsons pasando parametro desde services.py
+
+
+        pages, next_url, prev_url = obtener_info(url) #llamo a funcion de services
+
+        if pages != None:
+            paginas = list(range(1, pages+1))
+        else:
+            paginas = 0
 
         context = {
-        'images': images,
-        'favourite_list': favourite_list_names,  # Lista de nombres normalizados de favoritos
-    }
+            'images': images,
+            'favourite_list': favourite_list_names,  # Lista de nombres normalizados de favoritos
+            'next_url': next_url,
+            'prev_url': prev_url,
+            'page_number': page_number,
+            'pages': pages,
+            'paginas': paginas,
+            'search_msg': search_msg
+        }
         
         return render(request, 'buscar.html', context)
 

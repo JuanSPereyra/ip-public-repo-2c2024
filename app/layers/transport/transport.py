@@ -9,6 +9,10 @@ def getAllInfo(url , input=None):
     else:
         json_info = requests.get(config.DEFAULT_REST_API_SEARCH + str(input)).json()
 
+    if 'error' in json_info:
+        print("[transport.py]: la búsqueda no arrojó resultados.")
+        return None
+    
     return json_info['info']
 
 # comunicación con la REST API.
@@ -17,7 +21,7 @@ def getAllImages(url, input=None):
     if input is None:
         json_response = requests.get(url).json()
     else:
-        json_response = requests.get(config.DEFAULT_REST_API_SEARCH + str(input)).json()
+        json_response = requests.get(url).json()
 
     json_collection = []
 

@@ -1,24 +1,24 @@
 {% extends 'header.html' %} {% block content %}
 <main>
-    <h1 class="text-center">Buscador Rick & Morty</h1>
+  <h1 class="text-center">Buscador Rick & Morty</h1>
 
-    <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
-      {% if pages > 1 %}
-          {% if page_number > 1 %}
-              <a href="?page={{ page_number|add:-1 }}">Anterior</a>
-          {% endif %}
-          {% for pagina in paginas %}
-              {% if pagina == page_number %}
-                  <strong>{{ pagina }}</strong>
-              {% else %}
-                  <a href="?page={{ pagina }}">{{ pagina }}</a>
-              {% endif %}
-          {% endfor %}
-          {% if page_number < pages %}
-              <a href="?page={{ page_number|add:1 }}">Siguiente</a>
-          {% endif %}
-      {% endif %}
-  </div>
+  <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+    {% if pages > 1 %}
+        {% if page_number > 1 %}
+            <a href="?page={{ page_number|add:-1 }}">Anterior</a>
+        {% endif %}
+        {% for pagina in paginas %}
+            {% if pagina == page_number %}
+                <strong>{{ pagina }}</strong>
+            {% else %}
+                <a href="?page={{ pagina }}">{{ pagina }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page_number < pages %}
+            <a href="?page={{ page_number|add:1 }}">Siguiente</a>
+        {% endif %}
+    {% endif %}
+</div>
 
     <div class="d-flex justify-content-center" style="margin-bottom: 1%">
         <!-- Buscador del sitio -->

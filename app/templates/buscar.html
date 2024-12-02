@@ -1,26 +1,48 @@
 {% extends 'header.html' %} {% block content %}
+<head>
+    ...
+    <style>
+        .text-titileo {
+            background: linear-gradient(to right, #1ABC9C 0%, #34C759 50%, #1ABC9C 100%);
+            background-size: 200% auto;
+            color: #fff;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 2s linear infinite forwards;
+            background-color: #f7f7f7; /* Fondo gris */
+        }
+
+        @keyframes shine {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+    </style>
+</head>
+
 <main>
     <h1 class="text-center">Buscador Rick & Morty</h1>
 
-    <div class="d-flex justify-content-end" style="margin-bottom: 1%; margin-right: 2rem;">
-        <!-- Selector de página -->
-        <nav aria-label="...">
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <a class="page-link">⬅️</a>
-                </li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">➡️</a>
-                </li>
-            </ul>
-        </nav>
+    <div style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+        {% if pages > 1 %}
+            {% if page_number > 1 %}
+                <a href="?page={{ page_number|add:-1 }}&name={{ search_msg }}">Anterior</a>
+            {% endif %}
+            {% for pagina in paginas %}
+                {% if pagina == page_number %}
+                    <strong>{{ pagina }}</strong>
+                {% else %}
+                    <a href="?page={{ pagina }}&name={{ search_msg }}">{{ pagina }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page_number < pages %}
+                <a href="?page={{ page_number|add:1 }}&name={{ search_msg }}">Siguiente</a>
+            {% endif %}
+        {% endif %}
     </div>
 
     <div class="d-flex justify-content-center" style="margin-bottom: 1%">
@@ -34,7 +56,15 @@
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% if images|length == 0 %}
-        <h2 class="text-center">La búsqueda no arrojó resultados...</h2>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="alert alert-danger text-center" role="alert" style="background-color: #585050;">
+                        <h2 class="alert-heading text-titileo">La búsqueda no arrojó resultados...</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% else %} {% for img in images %}
         <div class="col">
             <div class="card
