@@ -4,6 +4,60 @@
 <h2 class="text-center">Bienvenido!</h2>
 {% endif %}
 <p class="text-center">
-    Mirá las imágenes desde <a href="{% url 'home' %}">este link.</a>
+Mirá las imágenes desde <a href="{% url 'home' %}">este link.</a>
 </p>
+
+<!-- Aquí va la tarjeta del personaje aleatorio -->
+{% if request.user.is_authenticated %}
+<div class="row justify-content-center">
+    <div class="col-md-4 mx-auto">
+        <div class="card
+            {% if winner.status == 'Alive' %} border-success
+            {% elif winner.status == 'Dead' %} border-danger
+            {% else %} border-warning
+            {% endif %}
+            mb-3">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ winner.url }}" class="card-img-top" alt="imagen">
+                </div>
+
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ winner.name }}</h3>
+                        <p class="card-text">
+                            <strong>
+                                    {% if img.status == 'Alive' %} 🟢 {{ img.status }}
+                                    {% elif img.status == 'Dead' %} 🔴 {{ img.status }}
+                                    {% else %} 🟠 {{ img.status }}
+                                    {% endif %}
+                                    </strong>
+                        </p>
+                        <p class="card-text"><small class="text-body-secondary">Última ubicación: {{ winner.last_location }}</small></p>
+                        <p class="card-text"><small class="text-body-secondary">Episodio inicial: {{ winner.first_seen }}</small></p>
+                        <p class="card-text"><small class="text-body-secondary">Especie: {{ winner.species }}</small></p>
+                        <p class="card-text fs-5 fw-bold">Tu tarjeta del día</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <form method="post" action="{% url 'agregar-favorito' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="name" value="{{ winner.name }}">
+                            <input type="hidden" name="url" value="{{ winner.url }}">
+                            <input type="hidden" name="status" value="{{ winner.status }}">
+                            <input type="hidden" name="last_location" value="{{ winner.last_location }}">
+                            <input type="hidden" name="first_seen" value="{{ winner.first_seen }}">
+                            <input type="hidden" name="species" value="{{ winner.species }}">
+                            {% if winner.name|lower in favourite_list %}
+                                <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white" disabled>✔️ Ya está en favoritos</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-primary btn-sm float-left" style="color:white">❤️ Añadir a favoritos</button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock %}

@@ -3,6 +3,19 @@
 import requests
 from ...config import config
 
+def getCountInfo(url):
+    response = requests.get(url)
+    datos = response.json()
+    id_max = datos['info']['count']
+
+    return id_max
+
+def winner_information(url):
+    response = requests.get(url)
+    info = response.json() 
+
+    return info
+
 def getAllInfo(url , input=None):
     if input is None:
         json_info = requests.get(url).json()

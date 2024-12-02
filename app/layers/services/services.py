@@ -3,10 +3,10 @@
 from ..persistence import repositories
 from ..utilities.translator import fromRepositoryIntoCard, fromRequestIntoCard, fromTemplateIntoCard
 from django.contrib.auth import get_user
-from app.layers.transport.transport import getAllImages
+from app.layers.transport.transport import getAllImages, getAllInfo, getCountInfo, winner_information
 from django.http import HttpRequest
-
-from app.layers.transport.transport import getAllInfo
+from ...config import config
+import random
 
 def obtener_info(url):
 
@@ -66,3 +66,26 @@ def getAllFavourites(request):
 def deleteFavourite(request):
     favId = request.POST.get('id')
     return repositories.deleteFavourite(favId) # borramos un favorito por su ID.
+
+def azar_id(url):
+    id_max = getCountInfo(url)
+    id = random.randint(1, id_max)
+
+    return id
+
+def information(url):
+    info = winner_information(url)
+
+    return info
+
+def personaje_azar():
+
+    id = azar_id(config.DEFAULT_REST_API_URL)
+
+    url_personaje = f"https://rickandmortyapi.com/api/character/{id}"
+
+    info = information(url_personaje)
+
+    winner_card = fromRequestIntoCard(info)
+
+    return winner_card
